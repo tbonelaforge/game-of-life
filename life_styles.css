@@ -1,0 +1,7 @@
+td.alive {
+    background-color : rgb( 100, 200, 100 );
+}
+
+td.dead {
+    background-color: rgb( 150, 150, 150 );
+}
