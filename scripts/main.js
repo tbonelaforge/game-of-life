@@ -21,4 +21,9 @@ function(
             clearInterval( evolution );
         }
     }, 1000 );
+
+    $('#stop_evolution').on( 'click', function() {
+        clearInterval( evolution );
+    } );
+
 });
