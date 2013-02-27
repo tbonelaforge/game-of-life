@@ -68,7 +68,7 @@ function(
         },
 
         getCellId : function( i, j ) {
-            return this.board.numRows * i + j;
+            return this.board.numColumns * i + j;
         },
 
         getStatus : function( i, j ) {

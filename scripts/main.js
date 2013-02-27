@@ -13,17 +13,30 @@ function(
 ) {
 
 //    var lifeGame = new LifeGame( 5, 5, "0100010011110010100010001" );
-    var lifeGame = new LifeGame( 20, 20 );
+    var lifeGame = new LifeGame( 20, 40 );
     lifeGame.initializeDisplay( $('#lifeVisualization') );
-    var evolution = setInterval( function() {
-        lifeGame.nextGeneration();
-        if ( lifeGame.isAllDead() ) {
-            clearInterval( evolution );
+    var evolution = null;
+    var evolutionState = 'stopped';
+    $( '#start_evolution' ).on( 'click', function() {
+        if ( evolutionState == 'stopped' ) {
+            lifeGame.nextGeneration();
+            evolution = setInterval( function() {
+                lifeGame.nextGeneration();
+                if ( lifeGame.isAllDead() ) {
+                    clearInterval( evolution );
+                    evolutionState = 'stopped';
+                }
+            }, 1000 );
+            evolutionState = 'started';
         }
-    }, 1000 );
+    } );
+    
 
-    $('#stop_evolution').on( 'click', function() {
-        clearInterval( evolution );
+    $( '#stop_evolution' ).on( 'click', function() {
+        if ( evolutionState == 'started' ) {
+            clearInterval( evolution );
+            evolutionState = 'stopped';
+        }
     } );
 
 });
