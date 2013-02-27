@@ -13,7 +13,7 @@ function(
     var ALIVE = 1;
     var DEAD  = 0;
 
-    var LifeGame = function( numRows, numColumns ) {
+    var LifeGame = function( numRows, numColumns, testSequence ) {
         var self = this;
         if ( !numRows ) {
             numRows = 5;
@@ -22,12 +22,11 @@ function(
             numColumns = 5;
         }
         self.board = new Matrix( numRows, numColumns );
-        //this.board.initializeRandomIntegers( 0, 1 );
-        var testSequence = "0100010011110010100010001";
-        self.board.scan( function( cell, i, j ) {
-            var index = i * 5 + j;
-            self.board.set( i, j, parseInt(testSequence[index]) );
-        } );
+        if ( testSequence ) {
+            self.board.initializeFromTestSequence( testSequence );
+        } else {
+            self.board.initializeRandomIntegers( 0, 1 );
+        }
         return self;
     };
 
@@ -72,15 +71,27 @@ function(
             return this.board.numRows * i + j;
         },
 
+        getStatus : function( i, j ) {
+            if ( this.board.get( i, j ) == ALIVE ) {
+                return 'alive';
+            } else if ( this.board.get( i, j ) == DEAD ) {
+                return 'dead';
+            }
+        },
+
         initializeDisplay : function(insertionPoint) {
             var table = $('<table>');
+            var row;
+            var cell;
+            var status;
             for ( var i = 0; i < this.board.numRows; i++ ) {
-                var row = $('<tr>');
+                row = $('<tr>');
                 table.append( row );
                 for ( var j = 0; j < this.board.numColumns; j++ ) {
                     
-                    var cell = $('<td id="' + this.getCellId( i, j ) + '">');
+                    cell = $('<td id="' + this.getCellId( i, j ) + '">');
                     cell.text( this.board.get( i, j ) );
+                    cell.addClass( this.getStatus( i, j ) );
                     row.append( cell );
                 }
             }
@@ -89,9 +100,18 @@ function(
 
         updateDisplay : function() {
             var self = this;
-            self.board.scan( function( cellValue, i, j ) {
-                $( '#' + self.getCellId( i, j )  ).text( cellValue );
+            self.board.scan( function( cell, i, j ) {
+                var status = self.getStatus( i, j );
+                var domElement = $( '#' + self.getCellId( i, j ) );
+                domElement.attr( 'class', status ).text( self.board.get( i, j ) );
             } );
+        },
+
+        isAllDead : function() {
+            if ( this.board.countCells( ALIVE ) == 0 ) {
+                return true;
+            }
+            return false;
         }
     } );
 

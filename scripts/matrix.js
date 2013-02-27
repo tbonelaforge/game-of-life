@@ -33,11 +33,20 @@ function(
                 }
             }
         },
+
+        initializeFromTestSequence : function( testSequence ) {
+            var self = this;
+
+            self.scan( function( cell, i, j ) {
+                var index = i * self.numColumns + j;
+                self.set( i, j, parseInt(testSequence[index]) );
+            } );            
+        },
         
         initializeRandomIntegers : function( lowerBound, upperBound ) {
             var self = this;
             var span = upperBound - lowerBound;
-console.log("span is: " + span );
+
             self.scan( function( cell, i, j ) {
                 var randomInteger = lowerBound;
                 randomInteger += Math.floor( Math.random() * ( span + 1 ) );
