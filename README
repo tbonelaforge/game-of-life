@@ -1,0 +1,31 @@
+This is a demonstration of how simple cellular automata can exhibit complex behavior.
+
+If you download the code, and open the "game_of_life.html" file in a browser,
+you should get a randomized "game board" of 1's and 0's, and two buttons at the bottom.
+
+The "Start Evolution" button should start updating the game board once a second. Each cell is either "alive" or "dead" ( 1 or 0 ), and it's next value is determined by it's current state, and the state of the cells around it. The following rules make up just one of the 512 possible rulesets for this game.
+
+1) Any live cell with fewer than two live neighbors dies (under-
+population)
+2) Any live cell with two or three live neighbors lives on to the
+next generation (survival)
+3) Any live cell with more than three live neighbors dies
+(overcrowding)
+4) Any dead cell with exactly three live neighbors becomes a live
+cell (reproduction)
+
+As an example, this game board as input:
+
+01000 
+10011
+11001
+01000 
+10001
+
+Will have a subsequent generation of:
+
+00000 
+10111 
+11111 
+01000 
+00000
